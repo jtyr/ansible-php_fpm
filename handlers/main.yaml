@@ -1,0 +1,9 @@
+---
+
+- name: Restart PHP-FPM service
+  service:
+    name: php-fpm
+    state: restarted
+  when: >
+    php_fpm_service_started is not defined or
+    not php_fpm_service_started.changed

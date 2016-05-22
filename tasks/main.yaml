@@ -1,0 +1,62 @@
+---
+
+- name: Test distribution
+  assert:
+    that: >
+      ansible_os_family == "RedHat"
+  tags:
+    - php_fpm_assert
+
+- name: Install PHP-FPM package
+  package:
+    name: "{{ php_fpm_pkg }}"
+    state: present
+  notify:
+    - Restart PHP-FPM service
+  tags:
+    - php_fpm_pkg
+
+- name: Configure PHP-FPM service
+  template:
+    src: php-fpm.conf.j2
+    dest: "{{ php_fpm_config_file }}"
+  notify:
+    - Restart PHP-FPM service
+  when: php_fpm_config is not none
+  tags:
+    - php_fpm_config
+
+- name: Configure PHP-FPM pools
+  template:
+    src: php-fpm.pool.j2
+    dest: "{{ php_fpm_config_dir }}/{{ item.key }}.conf"
+  notify:
+    - Restart PHP-FPM service
+  with_dict: "{{ php_fpm_pool_config }}"
+  tags:
+    - php_fpm_config
+
+- name: Configure PHP-FPM sysconfig
+  template:
+    src: php-fpm.sysconfig.j2
+    dest: "{{ php_fpm_sysconfig_file }}"
+  notify:
+    - Restart PHP-FPM service
+  when: ansible_os_family == "RedHat"
+  tags:
+    - php_fpm_config
+
+- name: Make sure the PHP-FPM service is enabled
+  service:
+    name: "{{ php_fpm_service }}"
+    enabled: yes
+  tags:
+    - php_fpm_service
+
+- name: Make sure the PHP-FPM service is running
+  service:
+    name: "{{ php_fpm_service }}"
+    state: started
+  register: php_fpm_service_started
+  tags:
+    - php_fpm_service
