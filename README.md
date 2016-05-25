@@ -53,17 +53,6 @@ Examples
     - php_fpm
 ```
 
-This role requires [Config
-Encoders](https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py).
-Download the file and put it into the `filter_plugins` directory in the root of
-your playbook:
-
-```
-$ mkdir ./filter_plugins
-$ cd ./filter_plugins
-$ curl -O https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py
-```
-
 
 Role variables
 --------------
@@ -135,8 +124,9 @@ php_fpm_sysconfig: {}
 Dependencies
 ------------
 
-- [Config Encoders](https://github.com/jtyr/ansible/blob/jtyr-config_encoders/lib/ansible/plugins/filter/config_encoders.py)
-- [php](https://github.com/jtyr/ansible-php) role (optional)
+- [`config_encoder_filters`](https://github.com/jtyr/ansible-config_encoder_filters)
+- [`php`](https://github.com/jtyr/ansible-php) role (optional)
+
 
 License
 -------
