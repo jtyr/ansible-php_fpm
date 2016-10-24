@@ -2,7 +2,7 @@
 
 galaxy_info:
   author: Jiri Tyr
-  description: Role which installs the Bacula Director
+  description: Role which installs the PHP-FPM
   license: MIT
   min_ansible_version: 2.1
   platforms:
