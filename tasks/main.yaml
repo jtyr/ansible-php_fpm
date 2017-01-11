@@ -10,7 +10,6 @@
 - name: Install PHP-FPM package
   package:
     name: "{{ php_fpm_pkg }}"
-    state: present
   notify:
     - Restart PHP-FPM service
   tags:
